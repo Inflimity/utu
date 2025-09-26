@@ -109,7 +109,7 @@ async function loadProducts() {
   const container = document.getElementById("products-container");
 
   // Replace with your published Google Sheet CSV link
-  const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vR1LOTq93SxnNOB7rLCElA1qYDbMNe3IkkgFSTFj-dMQFNbRaTCY1hhxORa9LrHqeUg87Dy2_mrT2yt/pubhtml");
+  const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vR1LOTq93SxnNOB7rLCElA1qYDbMNe3IkkgFSTFj-dMQFNbRaTCY1hhxORa9LrHqeUg87Dy2_mrT2yt/pub?output=csv");
   const data = await response.text();
 
   const rows = data.split("\n").map(row => row.split(","));
