@@ -160,12 +160,14 @@ a:hover { text-decoration: none; }
 	font-size: 40px;
 	color: #9C0;
 }
+
 .tm-home-header {
-  font-size: 18px;
-  font-style: italic;
+  font-size: 10px;
+  font-style: normal;
   text-transform: none;
   color:#202020;
 }
+
 .tm-home .btn {
   background: #ffffff;
   -webkit-box-shadow: 0 2px 8px 0 rgba(50, 50, 50, 0.08);
@@ -225,23 +227,6 @@ a:hover { text-decoration: none; }
     padding-top: 80px;
     padding-bottom: 80px;
 }
-  /* }
-.tm-about img { padding-bottom: 16px; }
-.tm-about .about-des {
-  background-image: url(../images/herb3.jpg);
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  border: 2px solid red;
-  opacity: 24px;
-  -webkit-box-shadow: 0 2px 8px 0 rgba(50, 50, 50, 0.08);
-          box-shadow: 0 2px 8px 0 rgba(50, 50, 50, 0.08);
-  border-right: 4px solid #a4c639;
-  padding: 60px;
-  position: relative;
-  top: 70px;
-}
-*/
 
 .tm-about .about-des {
   position: relative;

@@ -104,3 +104,45 @@ $(function()
 {
     new WOW().init();
 });
+
+
+async function loadProducts() {
+  const container = document.getElementById("products-container");
+
+  // 👇 you’ll need to maintain a list of product files, or generate it during build
+  const files = ["jonny-doe.md", "jonny-ive.md", "jonny-mark.md", "jonny-lady.md"];
+
+  for (let file of files) {
+    let res = await fetch(`/content/products/${file}`);
+    let text = await res.text();
+
+    // Extract frontmatter
+    let match = /---([\s\S]*?)---/.exec(text);
+    let frontmatter = {};
+    if (match) {
+      match[1].trim().split("\n").forEach(line => {
+        let [key, ...rest] = line.split(":");
+        frontmatter[key.trim()] = rest.join(":").trim().replace(/"/g, "");
+      });
+    }
+
+    let description = text.replace(/---[\s\S]*?---/, "").trim();
+
+    container.innerHTML += `
+      <div class="col-md-6 col-sm-10">
+        <div class="media wow fadeInUp" data-wow-delay="0.3s">
+          <div class="media-object pull-left">
+            <img src="${frontmatter.image}" class="img-responsive" alt="${frontmatter.title}">
+          </div>
+          <div class="media-body border-right">
+            <h3 class="media-heading">${frontmatter.title}</h3>
+            <h4 class="tm-team-member-heading-2">${frontmatter.role}</h4>
+            <p>${description}</p>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+}
+
+loadProducts();
