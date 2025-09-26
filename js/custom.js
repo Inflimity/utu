@@ -105,44 +105,37 @@ $(function()
     new WOW().init();
 });
 
-
 async function loadProducts() {
   const container = document.getElementById("products-container");
 
-  // 👇 you’ll need to maintain a list of product files, or generate it during build
-  const files = ["jonny-doe.md", "jonny-ive.md", "jonny-mark.md", "jonny-lady.md"];
+  // Replace with your published Google Sheet CSV link
+  const response = await fetch("https://docs.google.com/spreadsheets/d/e/2PACX-1vR1LOTq93SxnNOB7rLCElA1qYDbMNe3IkkgFSTFj-dMQFNbRaTCY1hhxORa9LrHqeUg87Dy2_mrT2yt/pubhtml");
+  const data = await response.text();
 
-  for (let file of files) {
-    let res = await fetch(`/content/products/${file}`);
-    let text = await res.text();
+  const rows = data.split("\n").map(row => row.split(","));
+  const products = rows.slice(1); // skip header
 
-    // Extract frontmatter
-    let match = /---([\s\S]*?)---/.exec(text);
-    let frontmatter = {};
-    if (match) {
-      match[1].trim().split("\n").forEach(line => {
-        let [key, ...rest] = line.split(":");
-        frontmatter[key.trim()] = rest.join(":").trim().replace(/"/g, "");
-      });
-    }
+  products.forEach((product, i) => {
+    if (product.length < 4) return; // skip empty rows
 
-    let description = text.replace(/---[\s\S]*?---/, "").trim();
+    const [name, role, image, description] = product;
 
-    container.innerHTML += `
-      <div class="col-md-6 col-sm-10">
-        <div class="media wow fadeInUp" data-wow-delay="0.3s">
-          <div class="media-object pull-left">
-            <img src="${frontmatter.image}" class="img-responsive" alt="${frontmatter.title}">
-          </div>
-          <div class="media-body border-right">
-            <h3 class="media-heading">${frontmatter.title}</h3>
-            <h4 class="tm-team-member-heading-2">${frontmatter.role}</h4>
-            <p>${description}</p>
-          </div>
+    const card = document.createElement("div");
+    card.classList.add("col-md-6", "col-sm-10");
+    card.innerHTML = `
+      <div class="media wow fadeInUp" data-wow-delay="${0.3 + i * 0.3}s">
+        <div class="media-object pull-left">
+          <img src="${image}" class="img-responsive" alt="${name}">
+        </div>
+        <div class="media-body border-right">
+          <h3 class="media-heading">${name}</h3>
+          <h4 class="tm-team-member-heading-2">${role}</h4>
+          <p>${description}</p>
         </div>
       </div>
     `;
-  }
+    container.appendChild(card);
+  });
 }
 
 loadProducts();
